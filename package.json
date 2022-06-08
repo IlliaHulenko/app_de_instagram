@@ -1,0 +1,21 @@
+{
+  "name": "app_de_instagram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "initDB": "node database/initDB.js",
+    "populateDB": "node database/populateDB.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Illia Hulenko & Alexey Motin",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
