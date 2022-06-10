@@ -1,27 +1,45 @@
+const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
 const insertUser = require("../../repositiries/users/insertUser");
+const selectUserByEmail = require("../../repositiries/users/selectUserByEmail");
 
-const createUser = async(req, res, next) => {
+const createUser = async (req, res, next) => {
     try {
 
         const { username, email, passwd } = req.body;
 
-        if(!(username && email && passwd)){
-            const error = new Error("User must have username, email and password");
+        const userWithSameEmail = await selectUserByEmail(email);
+
+        if(userWithSameEmail){
+            const error = new Error("Already exists an user with that email");
             error.statusCode = 400;
             throw error;
         }
 
-        const userData = { username, email, passwd };
+        const encryptedPassword = await bcrypt.hash(passwd, 10);
 
-        const insertId = await insertUser(userData);
+        const registrationCode = uuidv4();
 
-        res.status(201).send({
-            status: "ok",
-            data: {
-                id:insertId,
-                ...userData
-            },
+        // const userData = { username, email, encryptedPassword, registrationCode };
+
+        // const insertId = await insertUser(userData);
+
+        const insertId = await insertUser({
+            username, 
+            email, 
+            encryptedPassword, 
+            registrationCode
         });
+
+        res.status(201).send({ status: "ok", data: { id: insertId }});
+
+        // res.status(201).send({
+        //     status: "ok",
+        //     data: {
+        //         id:insertId,
+        //         ...userData
+        //     },
+        // });
         
     } catch (error) {
         next(error);
