@@ -24,7 +24,7 @@ const populateDB = async () => {
         console.log("Insertando datos en tabla en likes...");
 
         await pool.query(
-            `INSERT INTO likes(user_id, photo_id) VALUES (1, 2), (2, 1);
+            `INSERT INTO likes(user_id, photo_id) VALUES (1, 2), (2, 1), (1, 2), (2, 1);
         `);
 
         console.log("Dastos introducidos!");

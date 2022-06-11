@@ -9,7 +9,7 @@ const activateUser = async (req, res, next) => {
         const user = await selectUserByActivationCode(registrationCode);
 
         if(!user){
-            const error = new Error("Invalid registration code or alread activated");
+            const error = new Error("Invalid registration code or already activated");
             error.statusCode = 404;
             throw error;
         }

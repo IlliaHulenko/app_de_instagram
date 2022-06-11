@@ -8,18 +8,18 @@ const loginUser = async (req, res, next) => {
         const { email, passwd } = req.body;       
 
         const user = await selectUserByEmail(email);  
-        
-        // if(!user){
-        //     const error = new Error("Incorrect password or email");
-        //     error.statusCode = 400;
-        //     throw error;
-        // }
 
+        if(!user){
+            const error = new Error("Incorrect password or email");
+            error.statusCode = 400;
+            throw error;
+        }
+        
         const encryptedPassword = user?.passwd;
 
-        const isLoginValid = user && (await bcrypt.compare(passwd, encryptedPassword));
+        const isPasswordOk = user && (await bcrypt.compare(passwd, encryptedPassword));
 
-        if(!isLoginValid){
+        if(!isPasswordOk){
             const error = new Error("Incorrect password or email");
             error.statusCode = 400;
             throw error;
