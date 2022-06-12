@@ -32,8 +32,8 @@ const initDB = async () => {
                 description_photo VARCHAR(300) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 user_id INT UNSIGNED,    	
-                FOREIGN KEY (user_id) REFERENCES users (id)
-                ON DELETE CASCADE
+                FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+                
             );
         `);
 
@@ -44,9 +44,8 @@ const initDB = async () => {
                 like_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 user_id INT UNSIGNED,    
                 photo_id INT UNSIGNED,
-                FOREIGN KEY (user_id) REFERENCES users (id),
-                FOREIGN KEY (photo_id) REFERENCES photo (id)
-                ON DELETE CASCADE
+                FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+                FOREIGN KEY (photo_id) REFERENCES photo (id) ON DELETE CASCADE    
             );
         `);
 
