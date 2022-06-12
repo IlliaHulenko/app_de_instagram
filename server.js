@@ -21,6 +21,11 @@ const getPhotoById = require("./controllers/photos/getPhotoById");
 const getRecentPhotos = require("./controllers/photos/getRecentPhotos");
 
 
+const createLike = require("./controllers/likes/createLike");
+const getLikes = require("./controllers/likes/getLikes");
+const getLikeById = require("./controllers/likes/getLikeById");
+
+
 app.use(express.json());
 
 /**Users requests */
@@ -45,6 +50,11 @@ app.get("/photos/:photoId", getPhotoById);
 app.post("/photos", validateAuth, createPhoto); 
 
 /**Likes requests */
+app.get("/likes", getLikes);
+app.get("/likes/:likeId", getLikeById);
+app.post("/likes",validateAuth, createLike); 
+
+/**Comments requests */
 
 /**Middoleweare 404 */
 app.use((req, res, next) => {

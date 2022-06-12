@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const selectUserByEmail = require("../../repositiries/users/selectUserByEmail");
+const generateError = require("../../helpers/generateError");
 
 
 const loginUser = async (req, res, next) => {
@@ -10,9 +11,7 @@ const loginUser = async (req, res, next) => {
         const user = await selectUserByEmail(email);  
 
         if(!user){
-            const error = new Error("Incorrect password or email");
-            error.statusCode = 400;
-            throw error;
+            generateError("Incorrect password or email", 400);          
         }
         
         const encryptedPassword = user?.passwd;
@@ -20,15 +19,11 @@ const loginUser = async (req, res, next) => {
         const isPasswordOk = user && (await bcrypt.compare(passwd, encryptedPassword));
 
         if(!isPasswordOk){
-            const error = new Error("Incorrect password or email");
-            error.statusCode = 400;
-            throw error;
+            generateError("Incorrect password or email", 400);
         }
 
         if(user.registrationcode){
-            const error = new Error("User not activated. Check your email!");
-            error.statusCode = 400;
-            throw error;
+            generateError("User not activated. Check your email!", 400);
         }
 
         const tokenPayload = { id: user.id };

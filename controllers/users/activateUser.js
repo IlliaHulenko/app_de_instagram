@@ -1,6 +1,7 @@
 
 const selectUserByActivationCode = require("../../repositiries/users/selectUserByActivationCode");
 const deleteRegistrationCode = require("../../repositiries/users/deleteRegistrationCode");
+const generateError = require("../../helpers/generateError");
 
 const activateUser = async (req, res, next) => {
     try {
@@ -9,9 +10,7 @@ const activateUser = async (req, res, next) => {
         const user = await selectUserByActivationCode(registrationCode);
 
         if(!user){
-            const error = new Error("Invalid registration code or already activated");
-            error.statusCode = 404;
-            throw error;
+            generateError("Invalid registration code or already activated", 404);            
         }
 
         await deleteRegistrationCode(user.id);

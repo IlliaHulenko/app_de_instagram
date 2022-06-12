@@ -1,5 +1,6 @@
 const removeUser = require("../../repositiries/users/removeUser");
 const selectUserById = require("../../repositiries/users/selectUserById");
+const generateError = require("../../helpers/generateError");
 
 const deleteUser = async (req, res, next) => {
     try {
@@ -9,17 +10,13 @@ const deleteUser = async (req, res, next) => {
         const userDB = await selectUserById(idUser);
 
         if(!userDB){
-            const error = new Error("User does not exists");
-            error.statusCode = 404;
-            throw error;        
+            generateError("User does not exists", 404)        
        } 
 
        const userId = req.auth.id;
        
        if(userDB.id !== userId){
-            const error = new Error("It is not imposible delete user");
-            error.statusCode = 400;
-            throw error;  
+            generateError("It is not imposible delete user", 400);          
        }
 
         await removeUser(idUser);  

@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+
 const insertPhoto = require("../../repositiries/photos/insertPhoto");
 
 const createPhoto = async (req, res, next) => {
@@ -10,8 +10,7 @@ const createPhoto = async (req, res, next) => {
 
         const insertId = await insertPhoto({ name_photo, description_photo, user_id });
 
-        res
-            .status(201)
+        res.status(201)
             .send({ 
                 status: "ok", 
                 data: { id: insertId, 

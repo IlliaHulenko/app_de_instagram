@@ -1,4 +1,5 @@
 const selectPhotoById = require("../../repositiries/photos/selectPhotoById");
+const generateError = require("../../helpers/generateError");
 
 const getPhotoById = async (req, res, next) => {
 
@@ -8,9 +9,7 @@ const getPhotoById = async (req, res, next) => {
         const photo = await selectPhotoById(photoId);
 
         if(!photo){
-            const error = new Error("Photo does not exists");
-            error.statusCode = 404;
-            throw error;
+            generateError("Photo does not exists", 404);            
         }
 
         res.status(200).send({ status: "ok", data: photo });

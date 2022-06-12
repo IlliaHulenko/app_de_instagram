@@ -1,4 +1,5 @@
 const selectUserById = require("../../repositiries/users/selectUserById");
+const generateError = require("../../helpers/generateError");
 
 const getUserById = async (req, res, next) => {
 
@@ -8,9 +9,7 @@ const getUserById = async (req, res, next) => {
         const user = await selectUserById(userId);
 
         if(!user){
-            const error = new Error("User does not exists");
-            error.statusCode = 404;
-            throw error;
+            generateError("User does not exists", 404);
         }
 
         res.status(200).send({ status: "ok", data: user });

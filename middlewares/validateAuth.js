@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const generateError = require("../helpers/generateError");
+
 
 const validateAuth = async (req, res, next) => {
     try {
@@ -6,9 +8,7 @@ const validateAuth = async (req, res, next) => {
         const { authorization } = req.headers;
         
         if(!authorization){
-            const error = new Error("Missing autorization header");
-            error.statusCode = 400;
-            throw error;
+            generateError("Missing autorization header", 400);
         }
 
         const [tokenType, token] = authorization.split(" ");
@@ -16,9 +16,7 @@ const validateAuth = async (req, res, next) => {
         console.log(tokenType, token);
 
         if(tokenType !== "Bearer" || !token){
-            const error = new Error("Invalid token format");
-            error.statusCode = 400;
-            throw error;
+            generateError("Invalid token format", 400);
         }
 
         const tokenInfo = jwt.verify(token, process.env.JWT_SECRET);
