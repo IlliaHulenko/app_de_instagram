@@ -49,6 +49,19 @@ const initDB = async () => {
             );
         `);
 
+        console.log("Creando tabla comments...");
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS comments(
+                comments_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                comments VARCHAR(300) NOT NULL,
+                user_id INT UNSIGNED,    
+                photo_id INT UNSIGNED,
+                FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+                FOREIGN KEY (photo_id) REFERENCES photo (id) ON DELETE CASCADE    
+            );
+        `);        
+
         console.log("Tablas creadas!")
 
     } catch (error) {
